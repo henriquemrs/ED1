@@ -121,8 +121,8 @@ void cadastrarNome(char *nome){
 
 	for(i=tamanho; nome[i]!=nome[0]; i--){
 		if (nome[i] == ' '){
-			if ((nome[i-1]>='A' && nome[i]<='Z')){
-				nome[i-1] = nome[i-1]+32;
+			if ((nome[i+1]>='A' && nome[i+1]<='Z')){
+				nome[i+1] = nome[i+1]+32;
 			} else {
 				break;
 			}
@@ -176,7 +176,7 @@ dependente* inserirDuplamenteEncPeloInicioDependente(dependente* lista){
 	return novo;
 }
 
-dependente* excluirDependente(dependente *lista, int codigo){
+dependente* excluirDependente(dependente *lista, char *codigo){
 	dependente *tmp = lista;
 
 	while (tmp != NULL) {
@@ -203,7 +203,7 @@ dependente* excluirDependente(dependente *lista, int codigo){
 	return lista;
 }
 
-cliente* excluirCliente(cliente* lista, int codigo){
+cliente* excluirCliente(cliente* lista, char *codigo){
 	cliente	*anterior = NULL,
 		  	*tmp = lista;
 	int i=0;
@@ -235,4 +235,48 @@ cliente* excluirCliente(cliente* lista, int codigo){
 	}
 	printf("\nCódigo não encontrado.");
 	return lista;
+}
+
+char* gerarCodigoCliente(cliente *lista){
+	cliente *tmp = lista;
+	char codigoCliente[100];
+	int i, tamanho, count = 0;
+	tamanho = strlen(tmp->nome);
+	codigoCliente[0]= tmp->nome[0];
+	
+	for(i=tamanho; tmp->nome[i]!=tmp->nome[0]; i--){
+		if (tmp->nome[i] == ' '){
+			codigoCliente[1] = tmp->nome[i+1];
+			break;
+		}
+	}
+	
+	codigoCliente[2]= RANDOMICO();
+		
+	count++;
+	
+	for (i=0; codigoCliente[i]!='\0'; i++){
+		if (codigoCliente[i+1] == '\0'){
+			codigoCliente[i+1] = count;
+			break;
+		}
+	}
+	
+	return codigoCliente;
+}
+
+char* gerarCodigoDependente(char *codigoCliente){
+	char codigoDependente[100] = codigoCliente;
+	int i, count = 0;
+	
+	for(i=0; codigoDependente[i]!='\0'; i++){
+		if (codigoDependente[i+1] == '\0'){
+			codigoDependente[i+1] = count;
+			break;
+		}
+	}
+		
+	count++;
+	
+	return codigoDependente;
 }

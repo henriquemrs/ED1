@@ -1,7 +1,7 @@
 #ifndef BIBLIOTECA_H_
 #define BIBLIOTECA_H_
 
-#define RANDOMICO rand()% 1000
+#define RANDOMICO rand()% (1000-0)
 #define MAX 2
 
 struct cliente {
@@ -31,12 +31,12 @@ char* cadastrarNascimento();
 void cadastrarLimite(float *limite);
 char cadastrarTipo();
 void cadastrarTipoDependente(char *tipoDependente);
-char* gerarCodigoCliente(char *nome, char *dataNascimento, cliente *lista);
-char* gerarCodigoDependente(char *codigo);
+char* gerarCodigoCliente(cliente *lista);
+char* gerarCodigoDependente(char *codigoCliente);
 
 cliente* inserirSimplismenteEncPeloFimCliente(cliente *lista);
-cliente* excluirCliente(cliente* lista, int codigo);
+cliente* excluirCliente(cliente* lista, char *codigo);
 dependente* inserirDuplamenteEncPeloInicioDependente(dependente* lista);
-dependente* excluirDependente(dependente *lista, int codigo);
+dependente* excluirDependente(dependente *lista, char *codigo);
 
 #endif
