@@ -98,29 +98,34 @@ void menu(){
 }
 
 void cadastrarNome(char *nome){
-	int i;
+	int i, tamanho;
+	tamanho = strlen(nome);
+	
+	for (i=0; nome[i]!='\0'; i++){
+		if ((nome[i]>='a' && nome[i]<='z') || (nome[i]>='A' && nome[i]<='Z') || (nome[i] == ' ')){
+			printf("\nNome Valido!");
+		} else {
+			printf("\nNome nao Valido!");
+		}
+	}
+	
+	for (i=0; nome[i]!='\0'; i++){
+		if (nome[i] == ' ' && nome[i+1] == ' '){
+			nome[i] = nome[i+1];
+		}
+	}
+	
+	if (nome[0]>='a' && nome[0]<='z'){
+		nome[i]=nome[i]-32;
+	}	
 
-	for(i=0; nome[i]!='\0'; i++)
-	{
-		if(i==0)
-		{
-			if((nome[i]>='a' && nome[i]<='z'))
-				nome[i]=nome[i]-32;
-			continue;
-		}
-		if(nome[i]==' ')
-		{
-			++i;
-			if(nome[i]>='a' && nome[i]<='z')
-			{
-				nome[i]=nome[i]-32;
-				continue;
+	for(i=tamanho; nome[i]!=nome[0]; i--){
+		if (nome[i] == ' '){
+			if ((nome[i-1]>='A' && nome[i]<='Z')){
+				nome[i-1] = nome[i-1]+32;
+			} else {
+				break;
 			}
-		}
-		else
-		{
-			if(nome[i]>='A' && nome[i]<='Z')
-				nome[i]=nome[i]+32;
 		}
 	}
 }
