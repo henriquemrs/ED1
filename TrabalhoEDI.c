@@ -3,9 +3,8 @@
 #include "biblioteca.h"
 #include "biblioteca.c"
 
-int main(void) {
-	setbuf(stdout, NULL);
-	menu();
+int main(){
 	
+	menu();
 	return 0;
 }
