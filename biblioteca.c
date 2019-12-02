@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <stdbool.h>
 #include "biblioteca.h"
 
 void menu(){
@@ -130,8 +131,109 @@ void cadastrarNome(char *nome){
 	}
 }
 
-char* cadastrarNascimento(){
+char* cadastrarNascimentoCliente(){
+	char dataDeAniversario[50];
+	do{
+		printf("\nDigite a data de nascimento:\n");
+		gets(dataDeAniversario);
+	}while (ehValidaData(dataDeAniversario)!=true);
 	
+	return dataDeAniversario;
+}
+
+bool ehValidaData(char *dataDeAniversario) {
+	int diaInt, mesInt, anoInt;
+	char data[10];
+	data = dataDeAniversario;
+	char dia[1], mes[1], ano[3];
+	int i, tamanho;
+	tamanho = strlen(data);
+	if (tamanho != 10) {
+		printf("\nData inválida, digite 10 caracteres DD/MM/AAAA");
+		return false;
+	}
+	if (data[2] != '/' || data[5] != '/') {
+		printf("\nData inválida, digite / no 3o. e 6o. caracteres DD/MM/AAAA");
+		return false;
+	}
+	if(data[0]<'0' && data[0]>'9'){
+		printf("\nOs dias da data nao possuem numeros.");
+		return false;
+	} else if (data[1]<'0' && data[1]>'9'){
+		printf("\nOs dias da data nao possuem numeros.");
+		return false;		
+	} else if (data[3]<'0' && data[3]>'9'){
+		printf("\nO mes da data nao possuem numeros.");
+		return false;			
+	} else if (data[4]<'0' && data[4]>'9'){
+		printf("\nO mes da data nao possuem numeros.");
+		return false;
+	} else if (data[6]<'0' && data[6]>'9'){
+		printf("\nO ano da data nao possuem numeros.");
+		return false;
+	} else if (data[7]<'0' && data[7]>'9'){
+		printf("\nO ano da data nao possuem numeros.");
+		return false;
+	} else if (data[8]<'0' && data[8]>'9'){
+		printf("\nO ano da data nao possuem numeros.");
+		return false;
+	} else if (data[9]<'0' && data[9]>'9'){
+		printf("\nO ano da data nao possuem numeros.");
+		return false;
+	} else {
+		dia[0] = data[0];
+		dia [1] = data[1];
+		mes[0] = data[3];
+		mes[1] = data[4];
+		ano[0] = data[6];
+		ano[1] = data[7];
+		ano[2] = data[8];
+		ano[3] = data[9];
+		
+		diaInt = strtonum(dia);
+		mesInt = strtonum(mes);
+		anoInt = strtonum(ano);
+		
+		if (anoInt < 1919 || anoInt > 2001) {
+			printf("\nData inválida, você precisa ter 18 anos ou mais e com idade menor que 100 anos.");
+			return false;
+		}
+		if (mesInt < 1 || mesInt > 12){
+			printf("\nData inválida, digite mes entre 1 e 12.");
+		}
+		if (diaInt < 1 || diaInt > 31) {
+			printf("\nData inválida, digite dia entre 1 e 31");
+			return false;
+		}		
+		if (mesInt == 2 && diaInt >28){
+			printf("\nData inválida, para fevereiro, digite dia entre 1 e 28");
+			return false;			
+		} else if (mesInt == 2 && diaInt >29 && anoInt%4==0){
+			printf("\nData inválida, para fevereiro de ano bissexto, digite dia entre 1 e 29");
+			return false;
+		}
+		if ((mesInt == 4 || mesInt == 6 || mesInt == 9 || mesInt == 11) && diaInt > 30) {
+			printf("\nData inválida, para meses 4,6,9 e 11, digite dia entre 1 e 30");
+			return false;
+		}
+	}
+	return true;
+}
+
+int idadeStringToInteger(char *dataNascimento){
+	int idade=0, anoInt;
+	char data[10];
+	data = dataNascimento;
+	char ano[3];
+	
+	ano[0] = data[6];
+	ano[1] = data[7];
+	ano[2] = data[8];
+	ano[3] = data[9];
+		
+	anoInt = strtonum(ano);
+	idade = anoInt-2019;
+	return idade;
 }
 
 void cadastrarLimite(float *limite){
@@ -266,7 +368,8 @@ char* gerarCodigoCliente(cliente *lista){
 }
 
 char* gerarCodigoDependente(char *codigoCliente){
-	char codigoDependente[100] = codigoCliente;
+	char codigoDependente[100];
+	codigoDependente = codigoCliente;
 	int i, count = 0;
 	
 	for(i=0; codigoDependente[i]!='\0'; i++){
